@@ -39,81 +39,125 @@ extension FlutterColorLogger on String {
       enableAnsi ? '\x1B[${code}m$text\x1B[0m' : text;
 
   // ----------------- ANSI Color Codes -----------------
+  /// ANSI code for red color.
   static const red = '31';
+
+  /// ANSI code for green color.
   static const green = '32';
+
+  /// ANSI code for yellow color.
   static const yellow = '33';
+
+  /// ANSI code for blue color.
   static const blue = '34';
+
+  /// ANSI code for purple color.
   static const purple = '35';
+
+  /// ANSI code for cyan color.
   static const cyan = '36';
+
+  /// ANSI code for white color.
   static const white = '37';
+
+  /// ANSI code for bright red color.
   static const brightRed = '91';
+
+  /// ANSI code for bright green color.
   static const brightGreen = '92';
+
+  /// ANSI code for bright yellow color.
   static const brightYellow = '93';
+
+  /// ANSI code for bright blue color.
   static const brightBlue = '94';
+
+  /// ANSI code for bright purple color.
   static const brightPurple = '95';
+
+  /// ANSI code for bright cyan color.
   static const brightCyan = '96';
 
   // ----------------- Simple colored logs -----------------
   /// Prints the string in red color.
-  get logRed => enableLogging ? (kDebugMode) ? _p(_wrap(this, red)) : null : null;
+  void get logRed => enableLogging && kDebugMode ? _p(_wrap(this, red)) : null;
 
   /// Prints the string in green color.
-  get logGreen => enableLogging ? _p(_wrap(this, green)) : null;
+  void get logGreen =>
+      enableLogging && kDebugMode ? _p(_wrap(this, green)) : null;
 
   /// Prints the string in yellow color.
-  get logYellow => enableLogging ? _p(_wrap(this, yellow)) : null;
+  void get logYellow =>
+      enableLogging && kDebugMode ? _p(_wrap(this, yellow)) : null;
 
   /// Prints the string in blue color.
-  get logBlue => enableLogging ? _p(_wrap(this, blue)) : null;
+  void get logBlue =>
+      enableLogging && kDebugMode ? _p(_wrap(this, blue)) : null;
 
   /// Prints the string in purple color.
-  get logPurple => enableLogging ? _p(_wrap(this, purple)) : null;
+  void get logPurple =>
+      enableLogging && kDebugMode ? _p(_wrap(this, purple)) : null;
 
   /// Prints the string in cyan color.
-  get logCyan => enableLogging ? _p(_wrap(this, cyan)) : null;
+  void get logCyan =>
+      enableLogging && kDebugMode ? _p(_wrap(this, cyan)) : null;
 
   /// Prints the string in white color.
-  get logWhite => enableLogging ? _p(_wrap(this, white)) : null;
+  void get logWhite =>
+      enableLogging && kDebugMode ? _p(_wrap(this, white)) : null;
 
   /// Prints the string in bright red color.
-  get logBrightRed => enableLogging ? _p(_wrap(this, brightRed)) : null;
+  void get logBrightRed =>
+      enableLogging && kDebugMode ? _p(_wrap(this, brightRed)) : null;
 
   /// Prints the string in bright green color.
-  get logBrightGreen => enableLogging ? _p(_wrap(this, brightGreen)) : null;
+  void get logBrightGreen =>
+      enableLogging && kDebugMode ? _p(_wrap(this, brightGreen)) : null;
 
   /// Prints the string in bright yellow color.
-  get logBrightYellow => enableLogging ? _p(_wrap(this, brightYellow)) : null;
+  void get logBrightYellow =>
+      enableLogging && kDebugMode ? _p(_wrap(this, brightYellow)) : null;
 
   /// Prints the string in bright blue color.
-  get logBrightBlue => enableLogging ? _p(_wrap(this, brightBlue)) : null;
+  void get logBrightBlue =>
+      enableLogging && kDebugMode ? _p(_wrap(this, brightBlue)) : null;
 
   /// Prints the string in bright purple color.
-  get logBrightPurple => enableLogging ? _p(_wrap(this, brightPurple)) : null;
+  void get logBrightPurple =>
+      enableLogging && kDebugMode ? _p(_wrap(this, brightPurple)) : null;
 
   /// Prints the string in bright cyan color.
-  get logBrightCyan => enableLogging ? _p(_wrap(this, brightCyan)) : null;
+  void get logBrightCyan =>
+      enableLogging && kDebugMode ? _p(_wrap(this, brightCyan)) : null;
 
   // ----------------- Boxed / Fancy logs -----------------
   /// Prints the string inside a boxed log with green color.
-  get logSuccess => enableLogging ? _logBox(color: brightGreen) : null;
+  void get logSuccess =>
+      enableLogging && kDebugMode ? _logBox(color: brightGreen) : null;
 
   /// Prints the string inside a boxed log with red color.
-  get logError => enableLogging ? _logBox(color: brightRed) : null;
+  void get logError =>
+      enableLogging && kDebugMode ? _logBox(color: brightRed) : null;
 
   /// Prints the string inside a boxed log with yellow color.
-  get logWarning => enableLogging ? _logBox(color: brightYellow) : null;
+  void get logWarning =>
+      enableLogging && kDebugMode ? _logBox(color: brightYellow) : null;
 
   /// Prints the string inside a boxed log with blue color.
-  get logInfo => enableLogging ? _logBox(color: brightBlue) : null;
+  void get logInfo =>
+      enableLogging && kDebugMode ? _logBox(color: brightBlue) : null;
 
   /// Prints the string inside a boxed log with purple color.
-  get logDebug => enableLogging ? _logBox(color: brightPurple) : null;
+  void get logDebug =>
+      enableLogging && kDebugMode ? _logBox(color: brightPurple) : null;
 
   /// Prints the string inside a boxed log with cyan color.
-  get logCyanBox => enableLogging ? _logBox(color: brightCyan) : null;
+  void get logCyanBox =>
+      enableLogging && kDebugMode ? _logBox(color: brightCyan) : null;
 
-  void _p(String code){
-    if (kDebugMode){
+  /// Internal method for printing a colored string.
+  void _p(String code) {
+    if (kDebugMode) {
       print(code);
     }
   }
@@ -123,21 +167,19 @@ extension FlutterColorLogger on String {
   /// [color] ANSI color code for the text and box.
   /// [padding] Spaces around the text inside the box (default 4).
   void _logBox({String color = brightGreen, int padding = 4}) {
-    if (!enableLogging) return;
-    if (!kDebugMode) return;
+    if (!enableLogging || !kDebugMode) return;
 
     final lines = split('\n');
-    final maxLength = lines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
+    final maxLength =
+        lines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
     final totalLength = maxLength + padding * 2;
     final border = '═' * totalLength;
 
-    if (kDebugMode) print(_wrap(border, color));
+    print(_wrap(border, color));
     for (var line in lines) {
       final padded = ' ' * padding + line.padRight(maxLength) + ' ' * padding;
-      if (kDebugMode) {
-        print(_wrap(padded, color));
-      }
+      print(_wrap(padded, color));
     }
-    if (kDebugMode) print(_wrap(border, color));
+    print(_wrap(border, color));
   }
 }
