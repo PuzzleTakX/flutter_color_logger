@@ -5,7 +5,7 @@
 A lightweight, zero-dependency string extension that turns your boring `print()` statements into **stunning, readable, and colorful boxed logs** — perfect for debugging and development.
 
 
-<img src="https://github.com/PuzzleTakX/flutter_color_logger/blob/master/demo/p2.png?raw=true=650x650?raw=true" alt="image_demo" width="600" height="850">
+<img src="https://github.com/PuzzleTakX/flutter_color_logger/blob/master/demo/p2.png?raw=true=650x650?raw=true" alt="image_demo" width="800" height="600">
 
 
 ## Features
