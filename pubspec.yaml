@@ -1,8 +1,8 @@
 name: flutter_color_logger
 description: Beautiful, colorful & boxed console logger for Flutter apps
-version: 1.0.0
-homepage: https://github.com/yourusername/flutter_color_logger
-repository: https://github.com/yourusername/flutter_color_logger
+version: 1.0.1
+homepage: https://github.com/PuzzleTakX/flutter_color_logger
+repository: https://github.com/PuzzleTakX/flutter_color_logger
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
