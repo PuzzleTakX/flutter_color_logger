@@ -1,6 +1,6 @@
 name: flutter_color_logger
 description: A colorful console logging extension for Flutter/Dart with fancy boxed logs.
-version: 0.0.3
+version: 0.0.5
 homepage: https://github.com/PuzzleTakX/flutter_color_logger
 repository: https://github.com/PuzzleTakX/flutter_color_logger
 environment:
