@@ -1,8 +1,12 @@
-# FlutterColorLogger
+# Flutter Color Logger
 
-**FlutterColorLogger** is a Dart/Flutter extension that allows you to print **colorful console logs** and **fancy boxed messages** directly from strings. It is ideal for **debugging and development**, making your logs easier to read and visually organized.
+**Beautiful, colorful & boxed console logs for Flutter**
 
----
+A lightweight, zero-dependency string extension that turns your boring `print()` statements into **stunning, readable, and colorful boxed logs** — perfect for debugging and development.
+
+
+<img src="https://github.com/PuzzleTakX/flutter_color_logger/blob/master/demo/p2.png?raw=true=250x250?raw=true" alt="image_demo" width="100" height="100">
+
 
 ## Features
 
