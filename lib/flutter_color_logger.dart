@@ -81,7 +81,8 @@ extension FlutterColorLogger on String {
 
   // ----------------- Simple colored logs -----------------
   /// Prints the string in red color.
-  void get logRed => enableLogging && kDebugMode ? _printColored(_wrap(this, _red)) : null;
+  void get logRed =>
+      enableLogging && kDebugMode ? _printColored(_wrap(this, _red)) : null;
 
   /// Prints the string in _green color.
   void get logGreen =>
@@ -108,28 +109,34 @@ extension FlutterColorLogger on String {
       enableLogging && kDebugMode ? _printColored(_wrap(this, _white)) : null;
 
   /// Prints the string in bright red color.
-  void get logBrightRed =>
-      enableLogging && kDebugMode ? _printColored(_wrap(this, _brightRed)) : null;
+  void get logBrightRed => enableLogging && kDebugMode
+      ? _printColored(_wrap(this, _brightRed))
+      : null;
 
   /// Prints the string in bright _green color.
-  void get logBrightGreen =>
-      enableLogging && kDebugMode ? _printColored(_wrap(this, _brightGreen)) : null;
+  void get logBrightGreen => enableLogging && kDebugMode
+      ? _printColored(_wrap(this, _brightGreen))
+      : null;
 
   /// Prints the string in bright yellow color.
-  void get logBrightYellow =>
-      enableLogging && kDebugMode ? _printColored(_wrap(this, _brightYellow)) : null;
+  void get logBrightYellow => enableLogging && kDebugMode
+      ? _printColored(_wrap(this, _brightYellow))
+      : null;
 
   /// Prints the string in bright blue color.
-  void get logBrightBlue =>
-      enableLogging && kDebugMode ? _printColored(_wrap(this, _brightBlue)) : null;
+  void get logBrightBlue => enableLogging && kDebugMode
+      ? _printColored(_wrap(this, _brightBlue))
+      : null;
 
   /// Prints the string in bright purple color.
-  void get logBrightPurple =>
-      enableLogging && kDebugMode ? _printColored(_wrap(this, _brightPurple)) : null;
+  void get logBrightPurple => enableLogging && kDebugMode
+      ? _printColored(_wrap(this, _brightPurple))
+      : null;
 
   /// Prints the string in bright cyan color.
-  void get logBrightCyan =>
-      enableLogging && kDebugMode ? _printColored(_wrap(this, _brightCyan)) : null;
+  void get logBrightCyan => enableLogging && kDebugMode
+      ? _printColored(_wrap(this, _brightCyan))
+      : null;
 // ----------------- Boxed / Fancy logs -----------------
   /// Prints the string inside a boxed log with a specific color and optional name/level.
   ///
@@ -145,10 +152,9 @@ extension FlutterColorLogger on String {
   /// `dart
   /// "Task completed successfully".logSuccess;
   /// `
-  void get logSuccess =>
-      enableLogging && kDebugMode
-          ? _logBox(color: _brightGreen, name: 'Success', level: 800)
-          : null;
+  void get logSuccess => enableLogging && kDebugMode
+      ? _logBox(color: _brightGreen, name: 'Success', level: 800)
+      : null;
 
   /// Prints the string inside a red boxed log labeled "Error".
   ///
@@ -156,10 +162,9 @@ extension FlutterColorLogger on String {
   /// `dart
   /// "Failed to load data".logError;
   /// `
-  void get logError =>
-      enableLogging && kDebugMode
-          ? _logBox(color: _brightRed, name: 'Error', level: 1000)
-          : null;
+  void get logError => enableLogging && kDebugMode
+      ? _logBox(color: _brightRed, name: 'Error', level: 1000)
+      : null;
 
   /// Prints the string inside a yellow boxed log labeled "Warning".
   ///
@@ -167,10 +172,9 @@ extension FlutterColorLogger on String {
   /// `dart
   /// "Input value might be incorrect".logWarning;
   /// `
-  void get logWarning =>
-      enableLogging && kDebugMode
-          ? _logBox(color: _brightYellow, name: 'Warning', level: 900)
-          : null;
+  void get logWarning => enableLogging && kDebugMode
+      ? _logBox(color: _brightYellow, name: 'Warning', level: 900)
+      : null;
 
   /// Prints the string inside a blue boxed log labeled "Info".
   ///
@@ -178,10 +182,9 @@ extension FlutterColorLogger on String {
   /// `dart
   /// "Fetching user details".logInfo;
   /// `
-  void get logInfo =>
-      enableLogging && kDebugMode
-          ? _logBox(color: _brightBlue, name: 'Info', level: 800)
-          : null;
+  void get logInfo => enableLogging && kDebugMode
+      ? _logBox(color: _brightBlue, name: 'Info', level: 800)
+      : null;
 
   /// Prints the string inside a purple boxed log labeled "Debug".
   ///
@@ -189,10 +192,9 @@ extension FlutterColorLogger on String {
   /// `dart
   /// "Variable x = 42".logDebug;
   /// `
-  void get logDebug =>
-      enableLogging && kDebugMode
-          ? _logBox(color: _brightPurple, name: 'Debug', level: 700)
-          : null;
+  void get logDebug => enableLogging && kDebugMode
+      ? _logBox(color: _brightPurple, name: 'Debug', level: 700)
+      : null;
 
   /// Prints the string inside a cyan boxed log labeled "Cyan".
   ///
@@ -200,12 +202,9 @@ extension FlutterColorLogger on String {
   /// `dart
   /// "Custom cyan message".logCyanBox;
   /// `
-  void get logCyanBox =>
-      enableLogging && kDebugMode
-          ? _logBox(color: _brightCyan, name: 'Cyan', level: 800)
-          : null;
-
-
+  void get logCyanBox => enableLogging && kDebugMode
+      ? _logBox(color: _brightCyan, name: 'Cyan', level: 800)
+      : null;
 
   /// Internal method for printing a colored string to the console in debug mode.
   ///
@@ -215,7 +214,6 @@ extension FlutterColorLogger on String {
       print(code);
     }
   }
-
 
   /// Internal method for printing boxed/fancy logs.
   ///
@@ -233,7 +231,8 @@ extension FlutterColorLogger on String {
     final lines = split('\n').map((l) => l.trimRight()).toList();
     if (lines.isEmpty) return;
 
-    final maxLength = lines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
+    final maxLength =
+        lines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
     final totalLength = maxLength + padding * 2;
     final border = '═' * totalLength;
 
@@ -244,5 +243,4 @@ extension FlutterColorLogger on String {
     }
     if (kDebugMode) print(_wrap(border, color));
   }
-
 }
