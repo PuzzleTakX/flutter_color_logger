@@ -1,185 +1,220 @@
+import 'dart:developer' as developer;
 import 'package:flutter/foundation.dart';
 
-/// FlutterColorLogger: Colorful console logging extension for Flutter/Dart.
+/// Flutter Color Logger – A beautiful, colorful, and boxed logging extension for Flutter & Dart
 ///
-/// This extension adds convenient getters to print colored text and boxed logs
-/// directly from strings. It supports:
-/// - Standard and bright ANSI colors
-/// - Colored boxed logs with "═" lines
-/// - Multi-line text
-/// - Enabling/disabling ANSI color codes
-/// - Enabling/disabling all logging globally
+/// This extension adds powerful and visually appealing logging capabilities directly
+/// to all strings. It uses ANSI colors and draws elegant boxes in the console while
+/// being completely safe for production (no `print()`, only `developer.log`).
 ///
-/// Example usage:
-/// ```dart
-/// // Enable/disable all logging
-/// FlutterColorLogger.enableLogging = true;
-/// // Enable/disable ANSI colors
-/// FlutterColorLogger.enableAnsi = true;
+/// Key features:
+/// • 14 ANSI colors (normal + bright)
+/// • Boxed logs with borders and automatic titles (SUCCESS, ERROR, etc.)
+/// • Automatic timestamp on every log
+/// • Custom log name/tag support (e.g. "API", "Auth", "Database")
+/// • Full error & stack trace integration
+/// • Only active in debug mode
+/// • Zero usage of `print()` → fully compliant with `dart analyze` and pub.dev rules
 ///
-/// "This is an info message".logInfo;
-/// "Success! Task completed".logSuccess;
-/// "Warning: Check input values".logWarning;
-/// "Error occurred!".logError;
-/// "Debug message here".logDebug;
-/// ```
+/// Published under MIT License | Ready for pub.dev 1.0.0+
 extension FlutterColorLogger on String {
-  /// Enable or disable ANSI color codes globally.
-  ///
-  /// Set to `false` to print logs without any color.
-  static bool enableAnsi = true;
+  // =================================================================
+  // Global Configuration
+  // =================================================================
 
-  /// Enable or disable all logging globally.
-  ///
-  /// Set to `false` to completely suppress all logs.
+  /// Globally enable or disable all logging from this package
+  /// Set to false to completely silence all logs (useful for release builds or testing)
   static bool enableLogging = true;
 
-  /// Wraps the text with ANSI color codes if enabled.
+  /// Globally enable or disable ANSI color codes
+  /// Set to false if you want clean logs (e.g. for log files, CI/CD, or terminals without color support)
+  static bool enableAnsi = true;
+
+  // =================================================================
+  // ANSI Color Constants (private)
+  // =================================================================
+
+  static const String _red = '31';           // Normal red
+  static const String _green = '32';         // Normal green
+  static const String _yellow = '33';        // Normal yellow
+  static const String _blue = '34';          // Normal blue
+  static const String _purple = '35';        // Normal purple (magenta)
+  static const String _cyan = '36';          // Normal cyan
+  static const String _white = '37';         // Normal white
+
+  static const String _brightRed = '91';     // Bright red
+  static const String _brightGreen = '92';   // Bright green
+  static const String _brightYellow = '93';  // Bright yellow
+  static const String _brightBlue = '94';    // Bright blue
+  static const String _brightPurple = '95';  // Bright purple
+  static const String _brightCyan = '96';    // Bright cyan
+
+  // =================================================================
+  // Internal Helper: Wrap text with ANSI color (if enabled)
+  // =================================================================
+
+  /// Applies ANSI color code to text only if [enableAnsi] is true
+  /// Otherwise returns plain text (safe for colorless environments)
   String _wrap(String text, String code) =>
       enableAnsi ? '\x1B[${code}m$text\x1B[0m' : text;
 
-  // ----------------- ANSI Color Codes -----------------
-  /// ANSI code for red color.
-  static const red = '31';
+  // =================================================================
+  // Core Logging Method (uses developer.log – safe & feature-rich)
+  // =================================================================
 
-  /// ANSI code for green color.
-  static const green = '32';
+  /// Internal logger that sends colored message to Flutter's developer timeline
+  /// Includes timestamp, custom name, log level, error, and stack trace
+  void _log(
+      String message, {
+        required String color,        // ANSI color code
+        required String name,         // Log tag (e.g. "API", "Auth")
+        int level = 800,              // 800 = INFO, 1000 = WARNING/ERROR
+        Object? error,                // Optional exception object
+        StackTrace? stackTrace,       // Optional stack trace
+      }) {
+    // Respect global and debug mode flags
+    if (!enableLogging || !kDebugMode) return;
 
-  /// ANSI code for yellow color.
-  static const yellow = '33';
-
-  /// ANSI code for blue color.
-  static const blue = '34';
-
-  /// ANSI code for purple color.
-  static const purple = '35';
-
-  /// ANSI code for cyan color.
-  static const cyan = '36';
-
-  /// ANSI code for white color.
-  static const white = '37';
-
-  /// ANSI code for bright red color.
-  static const brightRed = '91';
-
-  /// ANSI code for bright green color.
-  static const brightGreen = '92';
-
-  /// ANSI code for bright yellow color.
-  static const brightYellow = '93';
-
-  /// ANSI code for bright blue color.
-  static const brightBlue = '94';
-
-  /// ANSI code for bright purple color.
-  static const brightPurple = '95';
-
-  /// ANSI code for bright cyan color.
-  static const brightCyan = '96';
-
-  // ----------------- Simple colored logs -----------------
-  /// Prints the string in red color.
-  void get logRed => enableLogging && kDebugMode ? _p(_wrap(this, red)) : null;
-
-  /// Prints the string in green color.
-  void get logGreen =>
-      enableLogging && kDebugMode ? _p(_wrap(this, green)) : null;
-
-  /// Prints the string in yellow color.
-  void get logYellow =>
-      enableLogging && kDebugMode ? _p(_wrap(this, yellow)) : null;
-
-  /// Prints the string in blue color.
-  void get logBlue =>
-      enableLogging && kDebugMode ? _p(_wrap(this, blue)) : null;
-
-  /// Prints the string in purple color.
-  void get logPurple =>
-      enableLogging && kDebugMode ? _p(_wrap(this, purple)) : null;
-
-  /// Prints the string in cyan color.
-  void get logCyan =>
-      enableLogging && kDebugMode ? _p(_wrap(this, cyan)) : null;
-
-  /// Prints the string in white color.
-  void get logWhite =>
-      enableLogging && kDebugMode ? _p(_wrap(this, white)) : null;
-
-  /// Prints the string in bright red color.
-  void get logBrightRed =>
-      enableLogging && kDebugMode ? _p(_wrap(this, brightRed)) : null;
-
-  /// Prints the string in bright green color.
-  void get logBrightGreen =>
-      enableLogging && kDebugMode ? _p(_wrap(this, brightGreen)) : null;
-
-  /// Prints the string in bright yellow color.
-  void get logBrightYellow =>
-      enableLogging && kDebugMode ? _p(_wrap(this, brightYellow)) : null;
-
-  /// Prints the string in bright blue color.
-  void get logBrightBlue =>
-      enableLogging && kDebugMode ? _p(_wrap(this, brightBlue)) : null;
-
-  /// Prints the string in bright purple color.
-  void get logBrightPurple =>
-      enableLogging && kDebugMode ? _p(_wrap(this, brightPurple)) : null;
-
-  /// Prints the string in bright cyan color.
-  void get logBrightCyan =>
-      enableLogging && kDebugMode ? _p(_wrap(this, brightCyan)) : null;
-
-  // ----------------- Boxed / Fancy logs -----------------
-  /// Prints the string inside a boxed log with green color.
-  void get logSuccess =>
-      enableLogging && kDebugMode ? _logBox(color: brightGreen) : null;
-
-  /// Prints the string inside a boxed log with red color.
-  void get logError =>
-      enableLogging && kDebugMode ? _logBox(color: brightRed) : null;
-
-  /// Prints the string inside a boxed log with yellow color.
-  void get logWarning =>
-      enableLogging && kDebugMode ? _logBox(color: brightYellow) : null;
-
-  /// Prints the string inside a boxed log with blue color.
-  void get logInfo =>
-      enableLogging && kDebugMode ? _logBox(color: brightBlue) : null;
-
-  /// Prints the string inside a boxed log with purple color.
-  void get logDebug =>
-      enableLogging && kDebugMode ? _logBox(color: brightPurple) : null;
-
-  /// Prints the string inside a boxed log with cyan color.
-  void get logCyanBox =>
-      enableLogging && kDebugMode ? _logBox(color: brightCyan) : null;
-
-  /// Internal method for printing a colored string.
-  void _p(String code) {
-    if (kDebugMode) {
-      print(code);
-    }
+    developer.log(
+      _wrap(message, color),      // Colored message
+      time: DateTime.now(),       // Automatic timestamp
+      name: name.isEmpty ? 'FlutterColorLogger' : name,
+      level: level,
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
-  /// Internal method for printing boxed/fancy logs.
-  ///
-  /// [color] ANSI color code for the text and box.
-  /// [padding] Spaces around the text inside the box (default 4).
-  void _logBox({String color = brightGreen, int padding = 4}) {
+  // =================================================================
+  // Simple Colored Logs (one-liners)
+  // =================================================================
+
+  void logRed({String name = ''}) => _log(this, color: _red, name: name);
+  void logGreen({String name = ''}) => _log(this, color: _green, name: name);
+  void logYellow({String name = ''}) => _log(this, color: _yellow, name: name);
+  void logBlue({String name = ''}) => _log(this, color: _blue, name: name);
+  void logPurple({String name = ''}) => _log(this, color: _purple, name: name);
+  void logCyan({String name = ''}) => _log(this, color: _cyan, name: name);
+  void logWhite({String name = ''}) => _log(this, color: _white, name: name);
+
+  void logBrightRed({String name = ''}) => _log(this, color: _brightRed, name: name);
+  void logBrightGreen({String name = ''}) => _log(this, color: _brightGreen, name: name);
+  void logBrightYellow({String name = ''}) => _log(this, color: _brightYellow, name: name);
+  void logBrightBlue({String name = ''}) => _log(this, color: _brightBlue, name: name);
+  void logBrightPurple({String name = ''}) => _log(this, color: _brightPurple, name: name);
+  void logBrightCyan({String name = ''}) => _log(this, color: _brightCyan, name: name);
+
+  // =================================================================
+  // Semantic Boxed Logs (with beautiful borders and titles)
+  // =================================================================
+
+  /// Green boxed log with "SUCCESS" title – perfect for positive outcomes
+  void logSuccess({
+    String name = 'Success',
+    Object? error,
+    StackTrace? stackTrace,
+  }) => _logBox(
+    color: _brightGreen,
+    title: 'SUCCESS',
+    name: name,
+    error: error,
+    stackTrace: stackTrace,
+  );
+
+  /// Red boxed log with "ERROR" title – ideal for exceptions
+  void logError({
+    String name = 'Error',
+    Object? error,
+    StackTrace? stackTrace,
+  }) => _logBox(
+    color: _brightRed,
+    title: 'ERROR',
+    name: name,
+    level: 1000,
+    error: error,
+    stackTrace: stackTrace,
+  );
+
+  /// Yellow boxed log with "WARNING" title
+  void logWarning({String name = 'Warning'}) => _logBox(
+    color: _brightYellow,
+    title: 'WARNING',
+    name: name,
+  );
+
+  /// Blue boxed log with "INFO" title
+  void logInfo({String name = 'Info'}) => _logBox(
+    color: _brightBlue,
+    title: 'INFO',
+    name: name,
+  );
+
+  /// Purple boxed log with "DEBUG" title
+  void logDebug({String name = 'Debug'}) => _logBox(
+    color: _brightPurple,
+    title: 'DEBUG',
+    name: name,
+  );
+
+  /// Cyan boxed log (custom purpose)
+  void logCyanBox({String name = 'Log'}) => _logBox(
+    color: _brightCyan,
+    title: 'LOG',
+    name: name,
+  );
+
+  // =================================================================
+  // Box Drawing Engine (core of fancy logs)
+  // =================================================================
+
+  /// Draws a fully colored and bordered box around the string
+  /// Supports multi-line content and automatic width calculation
+  void _logBox({
+    required String color,        // ANSI color for text and border
+    required String title,        // Title shown at the top (e.g. SUCCESS)
+    required String name,         // Log tag/name
+    int padding = 4,              // Horizontal padding inside box
+    int level = 800,              // Log level
+    Object? error,                // Optional error object
+    StackTrace? stackTrace,       // Optional stack trace
+  }) {
     if (!enableLogging || !kDebugMode) return;
 
     final lines = split('\n');
-    final maxLength =
-        lines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
-    final totalLength = maxLength + padding * 2;
-    final border = '═' * totalLength;
+    if (lines.isEmpty) return;
 
-    print(_wrap(border, color));
+    // Calculate maximum line length for consistent box width
+    final contentLines = lines.map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
+    final maxLength = contentLines.isEmpty
+        ? 0
+        : contentLines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
+
+    final innerWidth = maxLength + padding * 2;
+    final border = '═' * (innerWidth + 2); // +2 for side borders
+
+    final c = color;
+    final colored = enableAnsi ? '\x1B[${c}m' : '';
+    final reset = enableAnsi ? '\x1B[0m' : '';
+
+    // Top border
+    _log('$colored╒$border╕$reset', color: c, name: name, level: level);
+
+    // Title line
+    final titleLine = ' $title '.padRight(innerWidth + 2);
+    _log('$colored│$titleLine│$reset', color: c, name: name, level: level);
+
+    // Title separator
+    _log('$colored╞$border╡$reset', color: c, name: name, level: level);
+
+    // Content lines
     for (var line in lines) {
-      final padded = ' ' * padding + line.padRight(maxLength) + ' ' * padding;
-      print(_wrap(padded, color));
+      final padded = line.padRight(maxLength);
+      _log('$colored│${' ' * padding}$padded${' ' * padding}│$reset',
+          color: c, name: name, level: level);
     }
-    print(_wrap(border, color));
+
+    // Bottom border (with error/stack if provided)
+    _log('$colored╘$border╛$reset',
+        color: c, name: name, level: level, error: error, stackTrace: stackTrace);
   }
 }
