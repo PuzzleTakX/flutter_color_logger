@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'dart:developer' as developer;
 
 /// FlutterColorLogger: Colorful console logging extension for Flutter/Dart.
 ///
@@ -224,7 +223,6 @@ extension FlutterColorLogger on String {
     int padding = 4,
     String name = 'FlutterColorLogger',
     int level = 800,
-    DateTime? time,
   }) {
     if (!enableLogging || !kDebugMode) return;
 
