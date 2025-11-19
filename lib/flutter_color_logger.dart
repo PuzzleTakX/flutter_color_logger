@@ -34,20 +34,20 @@ extension FlutterColorLogger on String {
   // ANSI Color Constants (private)
   // =================================================================
 
-  static const String _red = '31';           // Normal red
-  static const String _green = '32';         // Normal green
-  static const String _yellow = '33';        // Normal yellow
-  static const String _blue = '34';          // Normal blue
-  static const String _purple = '35';        // Normal purple (magenta)
-  static const String _cyan = '36';          // Normal cyan
-  static const String _white = '37';         // Normal white
+  static const String _red = '31'; // Normal red
+  static const String _green = '32'; // Normal green
+  static const String _yellow = '33'; // Normal yellow
+  static const String _blue = '34'; // Normal blue
+  static const String _purple = '35'; // Normal purple (magenta)
+  static const String _cyan = '36'; // Normal cyan
+  static const String _white = '37'; // Normal white
 
-  static const String _brightRed = '91';     // Bright red
-  static const String _brightGreen = '92';   // Bright green
-  static const String _brightYellow = '93';  // Bright yellow
-  static const String _brightBlue = '94';    // Bright blue
-  static const String _brightPurple = '95';  // Bright purple
-  static const String _brightCyan = '96';    // Bright cyan
+  static const String _brightRed = '91'; // Bright red
+  static const String _brightGreen = '92'; // Bright green
+  static const String _brightYellow = '93'; // Bright yellow
+  static const String _brightBlue = '94'; // Bright blue
+  static const String _brightPurple = '95'; // Bright purple
+  static const String _brightCyan = '96'; // Bright cyan
 
   // =================================================================
   // Internal Helper: Wrap text with ANSI color (if enabled)
@@ -65,19 +65,19 @@ extension FlutterColorLogger on String {
   /// Internal logger that sends colored message to Flutter's developer timeline
   /// Includes timestamp, custom name, log level, error, and stack trace
   void _log(
-      String message, {
-        required String color,        // ANSI color code
-        required String name,         // Log tag (e.g. "API", "Auth")
-        int level = 800,              // 800 = INFO, 1000 = WARNING/ERROR
-        Object? error,                // Optional exception object
-        StackTrace? stackTrace,       // Optional stack trace
-      }) {
+    String message, {
+    required String color, // ANSI color code
+    required String name, // Log tag (e.g. "API", "Auth")
+    int level = 800, // 800 = INFO, 1000 = WARNING/ERROR
+    Object? error, // Optional exception object
+    StackTrace? stackTrace, // Optional stack trace
+  }) {
     // Respect global and debug mode flags
     if (!enableLogging || !kDebugMode) return;
 
     developer.log(
-      _wrap(message, color),      // Colored message
-      time: DateTime.now(),       // Automatic timestamp
+      _wrap(message, color), // Colored message
+      time: DateTime.now(), // Automatic timestamp
       name: name.isEmpty ? 'FlutterColorLogger' : name,
       level: level,
       error: error,
@@ -97,12 +97,18 @@ extension FlutterColorLogger on String {
   void logCyan({String name = ''}) => _log(this, color: _cyan, name: name);
   void logWhite({String name = ''}) => _log(this, color: _white, name: name);
 
-  void logBrightRed({String name = ''}) => _log(this, color: _brightRed, name: name);
-  void logBrightGreen({String name = ''}) => _log(this, color: _brightGreen, name: name);
-  void logBrightYellow({String name = ''}) => _log(this, color: _brightYellow, name: name);
-  void logBrightBlue({String name = ''}) => _log(this, color: _brightBlue, name: name);
-  void logBrightPurple({String name = ''}) => _log(this, color: _brightPurple, name: name);
-  void logBrightCyan({String name = ''}) => _log(this, color: _brightCyan, name: name);
+  void logBrightRed({String name = ''}) =>
+      _log(this, color: _brightRed, name: name);
+  void logBrightGreen({String name = ''}) =>
+      _log(this, color: _brightGreen, name: name);
+  void logBrightYellow({String name = ''}) =>
+      _log(this, color: _brightYellow, name: name);
+  void logBrightBlue({String name = ''}) =>
+      _log(this, color: _brightBlue, name: name);
+  void logBrightPurple({String name = ''}) =>
+      _log(this, color: _brightPurple, name: name);
+  void logBrightCyan({String name = ''}) =>
+      _log(this, color: _brightCyan, name: name);
 
   // =================================================================
   // Semantic Boxed Logs (with beautiful borders and titles)
@@ -113,55 +119,57 @@ extension FlutterColorLogger on String {
     String name = 'Success',
     Object? error,
     StackTrace? stackTrace,
-  }) => _logBox(
-    color: _brightGreen,
-    title: 'SUCCESS',
-    name: name,
-    error: error,
-    stackTrace: stackTrace,
-  );
+  }) =>
+      _logBox(
+        color: _brightGreen,
+        title: 'SUCCESS',
+        name: name,
+        error: error,
+        stackTrace: stackTrace,
+      );
 
   /// Red boxed log with "ERROR" title – ideal for exceptions
   void logError({
     String name = 'Error',
     Object? error,
     StackTrace? stackTrace,
-  }) => _logBox(
-    color: _brightRed,
-    title: 'ERROR',
-    name: name,
-    level: 1000,
-    error: error,
-    stackTrace: stackTrace,
-  );
+  }) =>
+      _logBox(
+        color: _brightRed,
+        title: 'ERROR',
+        name: name,
+        level: 1000,
+        error: error,
+        stackTrace: stackTrace,
+      );
 
   /// Yellow boxed log with "WARNING" title
   void logWarning({String name = 'Warning'}) => _logBox(
-    color: _brightYellow,
-    title: 'WARNING',
-    name: name,
-  );
+        color: _brightYellow,
+        title: 'WARNING',
+        name: name,
+      );
 
   /// Blue boxed log with "INFO" title
   void logInfo({String name = 'Info'}) => _logBox(
-    color: _brightBlue,
-    title: 'INFO',
-    name: name,
-  );
+        color: _brightBlue,
+        title: 'INFO',
+        name: name,
+      );
 
   /// Purple boxed log with "DEBUG" title
   void logDebug({String name = 'Debug'}) => _logBox(
-    color: _brightPurple,
-    title: 'DEBUG',
-    name: name,
-  );
+        color: _brightPurple,
+        title: 'DEBUG',
+        name: name,
+      );
 
   /// Cyan boxed log (custom purpose)
   void logCyanBox({String name = 'Log'}) => _logBox(
-    color: _brightCyan,
-    title: 'LOG',
-    name: name,
-  );
+        color: _brightCyan,
+        title: 'LOG',
+        name: name,
+      );
 
   // =================================================================
   // Box Drawing Engine (core of fancy logs)
@@ -170,13 +178,13 @@ extension FlutterColorLogger on String {
   /// Draws a fully colored and bordered box around the string
   /// Supports multi-line content and automatic width calculation
   void _logBox({
-    required String color,        // ANSI color for text and border
-    required String title,        // Title shown at the top (e.g. SUCCESS)
-    required String name,         // Log tag/name
-    int padding = 4,              // Horizontal padding inside box
-    int level = 800,              // Log level
-    Object? error,                // Optional error object
-    StackTrace? stackTrace,       // Optional stack trace
+    required String color, // ANSI color for text and border
+    required String title, // Title shown at the top (e.g. SUCCESS)
+    required String name, // Log tag/name
+    int padding = 4, // Horizontal padding inside box
+    int level = 800, // Log level
+    Object? error, // Optional error object
+    StackTrace? stackTrace, // Optional stack trace
   }) {
     if (!enableLogging || !kDebugMode) return;
 
@@ -184,7 +192,8 @@ extension FlutterColorLogger on String {
     if (lines.isEmpty) return;
 
     // Calculate maximum line length for consistent box width
-    final contentLines = lines.map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
+    final contentLines =
+        lines.map((l) => l.trim()).where((l) => l.isNotEmpty).toList();
     final maxLength = contentLines.isEmpty
         ? 0
         : contentLines.map((l) => l.length).reduce((a, b) => a > b ? a : b);
@@ -215,6 +224,10 @@ extension FlutterColorLogger on String {
 
     // Bottom border (with error/stack if provided)
     _log('$colored╘$border╛$reset',
-        color: c, name: name, level: level, error: error, stackTrace: stackTrace);
+        color: c,
+        name: name,
+        level: level,
+        error: error,
+        stackTrace: stackTrace);
   }
 }
